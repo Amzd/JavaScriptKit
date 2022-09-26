@@ -9,6 +9,7 @@ let package = Package(
         .library(name: "JavaScriptEventLoop", targets: ["JavaScriptEventLoop"]),
         .library(name: "JavaScriptBigIntSupport", targets: ["JavaScriptBigIntSupport"]),
         .plugin(name: "TSImporter", targets: ["TSImporter"]),
+        .plugin(name: "TSImportCommand", targets: ["TSImportCommand"]),
     ],
     targets: [
         .target(
@@ -31,6 +32,16 @@ let package = Package(
         .plugin(
             name: "TSImporter",
             capability: .buildTool(),
+            dependencies: ["ts-importer"]
+        ),
+        .plugin(
+            name: "TSImportCommand",
+            capability: .command(
+                intent: .custom(
+                    verb: "import-ts",
+                    description: "Import TypeScript definitions"
+                )
+            ),
             dependencies: ["ts-importer"]
         ),
         .target(name: "TSInterop"),
