@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.7
 
 import PackageDescription
 
@@ -8,6 +8,7 @@ let package = Package(
         .library(name: "JavaScriptKit", targets: ["JavaScriptKit"]),
         .library(name: "JavaScriptEventLoop", targets: ["JavaScriptEventLoop"]),
         .library(name: "JavaScriptBigIntSupport", targets: ["JavaScriptBigIntSupport"]),
+        .plugin(name: "TSImporter", targets: ["TSImporter"]),
     ],
     targets: [
         .target(
@@ -26,5 +27,16 @@ let package = Package(
             dependencies: ["JavaScriptKit", "_CJavaScriptEventLoop"]
         ),
         .target(name: "_CJavaScriptEventLoop"),
+
+        .plugin(
+            name: "TSImporter",
+            capability: .buildTool(),
+            dependencies: ["ts-importer"]
+        ),
+        .target(name: "TSInterop"),
+        .executableTarget(
+            name: "ts-importer",
+            dependencies: ["TSInterop"]
+        ),
     ]
 )
