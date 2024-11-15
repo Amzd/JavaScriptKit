@@ -111,7 +111,7 @@ extension JSValue {
     #if !hasFeature(Embedded)
     /// An unsafe convenience method of `JSObject.subscript(_ name: String) -> ((ConvertibleToJSValue...) -> JSValue)?`
     /// - Precondition: `self` must be a JavaScript Object and specified member should be a callable object.
-    public subscript(dynamicMember name: String) -> ((ConvertibleToJSValue...) -> JSValue) {
+    public subscript(dynamicMember name: String) -> DiscardableResultClosure {
         object![dynamicMember: name]!
     }
     #endif
@@ -122,6 +122,13 @@ extension JSValue {
         get { self.object![name] }
         nonmutating set { self.object![name] = newValue }
     }
+
+    @_disfavoredOverload
+    subscript(dynamicMember name: String) -> ConvertibleToJSValue {
+        get { self.object![name] }
+        nonmutating set { self.object![name] = newValue.jsValue }
+    }
+
 
     /// An unsafe convenience method of `JSObject.subscript(_ index: Int) -> JSValue`
     /// - Precondition: `self` must be a JavaScript Object.
