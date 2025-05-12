@@ -124,7 +124,7 @@ extension JSValue {
     }
 
     @_disfavoredOverload
-    subscript(dynamicMember name: String) -> ConvertibleToJSValue {
+    public subscript(dynamicMember name: String) -> ConvertibleToJSValue {
         get { self.object![name] }
         nonmutating set { self.object![name] = newValue.jsValue }
     }
